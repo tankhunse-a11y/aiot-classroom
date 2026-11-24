@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AIoT Dashboard</title>
+  <meta name="description" content="Dashboard สด: ข้อมูลจากบอร์ด Cucumber + AI ทำนายความสบายของห้องเรียน รันบนมือถือด้วย TensorFlow.js">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600;700&family=IBM+Plex+Mono&display=swap">
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+  <nav class="nav"><div class="nav-inner">
+    <a class="brand" href="index.html"><span class="dot"></span>AIoT Classroom</a>
+    <div class="nav-links">
+      <a href="index.html">หน้าแรก</a>
+      <a href="lessons.html">บทเรียน</a>
+      <a href="dashboard.html" aria-current="page">Dashboard</a>
+      <a data-link="repo" href="#">GitHub</a>
+    </div>
+  </div></nav>
+
+  <main class="wrap">
+    <h1>Dashboard ห้องเรียนอัจฉริยะ</h1>
+    <p class="lead">ข้อมูลจากบอร์ด Cucumber วิ่งผ่าน MQTT มาที่หน้านี้ แล้ว AI ในเบราว์เซอร์ของคุณ (TensorFlow.js) ทำนายว่าห้องตอนนี้สบายหรือไม่ และส่งสีกลับไปที่ไฟ LED บนบอร์ด</p>
+
+    <!-- 1. การเชื่อมต่อ -->
+    <section class="card">
+      <div class="row" style="justify-content:space-between">
+        <h3 style="margin:0">① แหล่งข้อมูล</h3>
+        <span id="status" class="status">ยังไม่เชื่อมต่อ</span>
+      </div>
+      <div class="row" style="margin-top:12px">
+        <label><input type="radio" name="mode" value="board" checked> บอร์ด Cucumber จริง</label>
+        <label><input type="radio" name="mode" value="sim"> โหมดจำลอง (ไม่มีบอร์ด)</label>
+      </div>
+      <div id="boardBox" class="row" style="margin-top:12px">
+        <input id="deviceId" type="text" value="cucumber-group01" aria-label="Device ID" style="flex:1 1 200px">
+        <button id="connectBtn" class="btn primary">เชื่อมต่อ</button>
+      </div>
+      <p id="topicHint" class="small muted" style="margin:8px 0 0"></p>
+      <div id="simBox" class="sim" style="margin-top:12px">
+        <div class="grid g2">
+          <div><label for="simT">อุณหภูมิ: <b id="simTv"></b> °C</label><input id="simT" type="range" min="16" max="40" step="0.1" value="27"></div>
+          <div><label for="simH">ความชื้น: <b id="simHv"></b> %</label><input id="simH" type="range" min="25" max="100" step="0.5" value="60"></div>
+        </div>
+        <p class="small muted" style="margin:6px 0 0">เลื่อนแถบเพื่อจำลองสภาพห้อง — ใช้สอนได้แม้ยังไม่ได้ต่อบอร์ด</p>
+      </div>
+    </section>
+
+    <!-- 2. ค่าเซนเซอร์ -->
+    <section class="grid g4" style="margin-top:14px">
+      <div class="card metric"><div class="label">อุณหภูมิ (HTS221)</div><div class="value"><span id="vTemp">–</span> <span class="unit">°C</span></div></div>
+      <div class="card metric"><div class="label">ความชื้นสัมพัทธ์ (HTS221)</div><div class="value"><span id="vHum">–</span> <span class="unit">%</span></div></div>
+      <div class="card metric"><div class="label">ความกดอากาศ (BMP280)</div><div class="value"><span id="vPres">–</span> <span class="unit">hPa</span></div></div>
+      <div class="card metric"><div class="label">การสั่นสะเทือน (MPU-6050)</div><div class="value"><span id="vVib">–</span> <span class="unit">m/s²</span></div></div>
+    </section>
+
+    <!-- 3. AI -->
+    <section class="grid g2" style="margin-top:14px">
+      <div class="card">
+        <h3>② AI ทำนาย</h3>
+        <div class="ai-result">
+          <div id="aiEmoji" class="ai-emoji">⏳</div>
+          <div>
+            <div id="aiLabel" class="ai-label">รอข้อมูล…</div>
+            <div id="aiConf" class="small muted"></div>
+          </div>
+        </div>
+        <div id="probs" style="margin-top:12px"></div>
+        <div class="row" style="margin-top:10px">
+          <label><input id="sendLed" type="checkbox" checked> ส่งสีผลลัพธ์ไปที่ไฟ LED บนบอร์ด</label>
+        </div>
+        <p id="modelInfo" class="small muted" style="margin:6px 0 0"></p>
+      </div>
+      <div class="card">
+        <h3>แผนที่การตัดสินใจของ AI</h3>
+        <div class="map-box"><canvas id="map"></canvas></div>
+        <div class="legend" style="margin-top:8px">
+          <span class="c-cold">เย็นไป</span><span class="c-comfy">สบาย</span><span class="c-hot">ร้อนไป</span><span class="c-humid">อบชื้น</span>
+          <span class="cur">ค่าปัจจุบัน</span>
+        </div>
+        <p class="small muted" style="margin:6px 0 0">พื้นสี = คำตอบของโมเดลในแต่ละจุด (แกนนอน: อุณหภูมิ 16–40 °C, แกนตั้ง: ความชื้น 25–100 %) จุดเล็ก = ข้อมูลที่กลุ่มเก็บเอง</p>
+      </div>
+    </section>
+
+    <section class="card" style="margin-top:14px">
+      <h3>กราฟย้อนหลัง</h3>
+      <div class="chart-box"><canvas id="chart"></canvas></div>
+    </section>
+
+    <!-- 4. เก็บข้อมูล + เทรน -->
+    <section class="grid g2" style="margin-top:14px">
+      <div class="card">
+        <h3>③ เก็บข้อมูลสอน AI</h3>
+        <p class="small muted" style="margin-top:0">ถามเพื่อนในห้องว่า "ตอนนี้รู้สึกอย่างไร" แล้วกดป้ายที่ตรงกับคำตอบส่วนใหญ่ ระหว่างที่เปิด "บันทึกต่อเนื่อง" ทุกค่าที่เข้ามาจะถูกเก็บพร้อมป้ายนี้</p>
+        <div class="label-btns" id="labelBtns"></div>
+        <div class="row" style="margin-top:10px">
+          <button id="recOnce" class="btn">บันทึก 1 แถว</button>
+          <button id="recToggle" class="btn">▶ บันทึกต่อเนื่อง</button>
+        </div>
+        <div class="counts" id="counts" style="margin-top:10px"></div>
+        <div class="row" style="margin-top:10px">
+          <button id="dlCsv" class="btn">⬇ ดาวน์โหลด CSV</button>
+          <button id="clearData" class="btn">ล้างข้อมูล</button>
+        </div>
+        <p class="small muted" style="margin:8px 0 0">นำไฟล์ CSV ไปเทรนใน <a data-link="colab" href="#" target="_blank" rel="noopener">Google Colab</a> (ตั้ง <code>UPLOAD_MY_CSV = True</code>)</p>
+      </div>
+      <div class="card">
+        <h3>④ เทรนบนมือถือ (ทางลัด)</h3>
+        <p class="small muted" style="margin-top:0">เทรนโมเดลใหม่จากข้อมูลที่เก็บ ภายในเบราว์เซอร์นี้เลย — โครงสร้างเดียวกับใน Colab: 2 → 16 (ReLU) → 4 (Softmax)</p>
+        <label><input id="useStarter" type="checkbox" checked> รวมข้อมูลตั้งต้น (สังเคราะห์) ด้วย</label>
+        <div class="row" style="margin-top:10px">
+          <button id="trainBtn" class="btn primary">เริ่มเทรน</button>
+          <button id="resetModel" class="btn">กลับไปใช้โมเดลบนเว็บ</button>
+        </div>
+        <div class="progress" style="margin-top:12px"><i id="trainBar"></i></div>
+        <p id="trainLog" class="small muted" style="margin:8px 0 0"></p>
+      </div>
+    </section>
+
+    <p class="note" style="margin-top:18px">MQTT broker ที่ใช้ (<code>broker.hivemq.com</code>) เป็นแบบสาธารณะ ใครที่รู้ชื่อ topic ก็เห็นข้อมูลได้ ห้ามส่งข้อมูลส่วนตัวผ่านระบบนี้</p>
+  </main>
+
+  <footer><div class="wrap">AIoT Classroom · บอร์ด Cucumber RIS + MQTT + TensorFlow.js · <a data-link="repo" href="#">ซอร์สโค้ด</a></div></footer>
+
+  <script src="https://unpkg.com/mqtt@5.10.1/dist/mqtt.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.22.0/dist/tf.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <script src="assets/common.js"></script>
+  <script src="assets/dashboard.js"></script>
+</body>
+</html>

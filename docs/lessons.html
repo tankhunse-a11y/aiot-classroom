@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AIoT Lessons</title>
+  <meta name="description" content="5 บทเรียน AIoT สำหรับนักเรียนมัธยมปลาย ด้วยบอร์ด Cucumber, MQTT, Google Colab และ TensorFlow.js">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600;700&family=IBM+Plex+Mono&display=swap">
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+  <nav class="nav"><div class="nav-inner">
+    <a class="brand" href="index.html"><span class="dot"></span>AIoT Classroom</a>
+    <div class="nav-links">
+      <a href="index.html">หน้าแรก</a>
+      <a href="lessons.html" aria-current="page">บทเรียน</a>
+      <a href="dashboard.html">Dashboard</a>
+      <a data-link="repo" href="#">GitHub</a>
+    </div>
+  </div></nav>
+
+  <main class="wrap narrow">
+    <span class="tag">สำหรับนักเรียน ม.4–ม.6 · รวม 7 คาบ (คาบละ 50 นาที)</span>
+    <h1>บทเรียน AIoT: ห้องเรียนอัจฉริยะ</h1>
+    <p class="lead">เมื่อเรียนจบ นักเรียนจะสร้างระบบที่ <b>วัด → ส่ง → คิด → ตอบสนอง</b> ได้ครบวงจร และเข้าใจว่า AI "เรียนรู้" จากข้อมูลที่เราสอนมันอย่างไร</p>
+
+    <ol class="toc">
+      <li><a href="#l1"><b>บทที่ 1</b> · AIoT คืออะไร <span class="muted small">(1 คาบ)</span></a></li>
+      <li><a href="#l2"><b>บทที่ 2</b> · รู้จักบอร์ด Cucumber และอ่านค่าเซนเซอร์ <span class="muted small">(2 คาบ)</span></a></li>
+      <li><a href="#l3"><b>บทที่ 3</b> · ส่งข้อมูลขึ้นอินเทอร์เน็ตด้วย MQTT <span class="muted small">(1 คาบ)</span></a></li>
+      <li><a href="#l4"><b>บทที่ 4</b> · เก็บข้อมูลและเทรน AI บน Google Colab <span class="muted small">(2 คาบ)</span></a></li>
+      <li><a href="#l5"><b>บทที่ 5</b> · AI บนมือถือ และปิดวงจรด้วยไฟ LED <span class="muted small">(1 คาบ)</span></a></li>
+      <li><a href="#teacher">สำหรับครู: การประเมินผล และแก้ปัญหา</a></li>
+      <li><a href="#ai-assistant">การใช้ AI เป็นผู้ช่วยพัฒนาโปรเจกต์นี้</a></li>
+    </ol>
+
+    <!-- ===================== 1 ===================== -->
+    <section class="lesson" id="l1">
+      <h2>บทที่ 1 · AIoT คืออะไร</h2>
+      <div class="meta"><span class="tag">1 คาบ</span><span class="tag">ไม่ต้องใช้อุปกรณ์</span></div>
+      <h3>จุดประสงค์</h3>
+      <ul>
+        <li>อธิบายความหมายของ IoT, AI และ AIoT ได้</li>
+        <li>แยกองค์ประกอบ 4 ส่วนของระบบ AIoT: <b>วัด (Sense) → ส่ง (Connect) → คิด (Think) → ตอบสนอง (Act)</b></li>
+      </ul>
+      <h3>เนื้อหา</h3>
+      <div class="grid g3">
+        <div class="card"><h3>IoT</h3><p class="small">อุปกรณ์ที่มีเซนเซอร์และต่ออินเทอร์เน็ตได้ เช่น มิเตอร์ไฟอัจฉริยะ กล้องวงจรปิด เครื่องวัดฝุ่น PM2.5</p></div>
+        <div class="card"><h3>AI</h3><p class="small">โปรแกรมที่ "เรียนรู้จากตัวอย่าง" แทนการเขียนกฎทุกข้อเอง เช่น ระบบแนะนำวิดีโอ การสแกนใบหน้า</p></div>
+        <div class="card"><h3>AIoT</h3><p class="small">IoT ที่มี AI ช่วยตัดสินใจ เช่น ฟาร์มอัจฉริยะที่รดน้ำเมื่อ AI คาดว่าดินจะแห้ง โรงงานที่ AI เตือนก่อนเครื่องจักรเสีย</p></div>
+      </div>
+      <h3>กิจกรรม: "ห้องเรารู้สึกอย่างไร?" (15 นาที)</h3>
+      <ol>
+        <li>ครูอ่านค่าอุณหภูมิจากเทอร์โมมิเตอร์หรือหน้า <a href="dashboard.html">Dashboard</a> (โหมดจำลองก็ได้)</li>
+        <li>นักเรียนแต่ละคนเขียนความรู้สึก: เย็นไป / สบาย / ร้อนไป / อบชื้น</li>
+        <li>นับคะแนนบนกระดาน แล้วถามว่า <i>"ถ้าจะให้คอมพิวเตอร์ตอบแทนเรา ต้องสอนมันอย่างไร?"</i></li>
+      </ol>
+      <details><summary>คำถามท้ายบท</summary>
+        <ol>
+          <li>ยกตัวอย่างระบบ AIoT ในชีวิตประจำวัน 2 ตัวอย่าง และระบุส่วน วัด/ส่ง/คิด/ตอบสนอง ของแต่ละระบบ</li>
+          <li>ถ้าใช้แค่กฎ "อุณหภูมิเกิน 30 องศา = ร้อน" จะมีปัญหาอะไรบ้าง?</li>
+        </ol>
+      </details>
+    </section>
+
+    <!-- ===================== 2 ===================== -->
+    <section class="lesson" id="l2">
+      <h2>บทที่ 2 · รู้จักบอร์ด Cucumber และอ่านค่าเซนเซอร์</h2>
+      <div class="meta"><span class="tag">2 คาบ</span><span class="tag">บอร์ด + คอมพิวเตอร์</span></div>
+      <h3>จุดประสงค์</h3>
+      <ul><li>ติดตั้งเครื่องมือและอัปโหลดโปรแกรมลงบอร์ด ESP32-S2 ได้</li><li>อ่านค่าเซนเซอร์และอธิบายได้ว่าแต่ละตัววัดอะไร</li></ul>
+
+      <h3>เซนเซอร์บนบอร์ด Cucumber RIS</h3>
+      <div class="table-scroll"><table>
+        <tr><th>ชิป</th><th>วัดอะไร</th><th>ที่อยู่ I2C</th><th>ใช้ในโปรเจกต์</th></tr>
+        <tr><td>HTS221</td><td>อุณหภูมิ, ความชื้นสัมพัทธ์</td><td><code>0x5F</code></td><td>ข้อมูลเข้าของ AI</td></tr>
+        <tr><td>BMP280</td><td>ความกดอากาศ</td><td><code>0x76</code>/<code>0x77</code></td><td>แสดงผล</td></tr>
+        <tr><td>MPU-6050</td><td>ความเร่ง 3 แกน, ไจโร 3 แกน</td><td><code>0x68</code></td><td>วัดการสั่น (โปรเจกต์ต่อยอด)</td></tr>
+        <tr><td>WS2812 (NeoPixel)</td><td>ไฟ LED สี</td><td>GPIO18</td><td>แสดงผลของ AI</td></tr>
+      </table></div>
+
+      <h3>ขั้นตอน</h3>
+      <ol>
+        <li>ติดตั้ง <b>Arduino IDE 2</b> → File → Preferences → Additional boards manager URLs ใส่<br><code>https://espressif.github.io/arduino-esp32/package_esp32_index.json</code></li>
+        <li>Tools → Board → Boards Manager → ติดตั้ง <b>esp32 by Espressif Systems</b></li>
+        <li>Library Manager → ติดตั้ง <code>PubSubClient</code>, <code>ArduinoJson</code>, <code>Adafruit HTS221</code>, <code>Adafruit BMP280 Library</code>, <code>Adafruit MPU6050</code>, <code>Adafruit NeoPixel</code> (กด Install all เมื่อถามเรื่อง dependency)</li>
+        <li>เปิดไฟล์ <a data-link="firmware" href="#"><code>firmware/cucumber_aiot/cucumber_aiot.ino</code></a> แก้ 3 บรรทัด:
+<pre><code>const char* WIFI_SSID     = "ชื่อ WiFi";
+const char* WIFI_PASSWORD = "รหัส WiFi";
+const char* DEVICE_ID     = "school123-group01";  // ห้ามซ้ำกับกลุ่มอื่น</code></pre></li>
+        <li>Tools → Board → <b>ESP32S2 Dev Module</b>, USB CDC On Boot: <b>Enabled</b>, PSRAM: <b>Enabled</b></li>
+        <li>ครั้งแรก ให้บอร์ดเข้าโหมดอัปโหลด: <b>กดปุ่ม BOOT ค้าง → กด RESET → ปล่อย BOOT</b> แล้วเลือกพอร์ตและกด Upload (หลังอัปโหลดเสร็จกด RESET อีกครั้ง)</li>
+        <li>เปิด Serial Monitor (115200) จะเห็นค่าที่ส่ง เช่น<br><code>-&gt; {"id":"school123-group01","temp":29.4,"hum":63.1,"pres":1008.6,"ax":0.12,...}</code></li>
+      </ol>
+      <h3>สีไฟบนบอร์ดบอกสถานะ</h3>
+      <div class="table-scroll"><table>
+        <tr><th>สี</th><th>ความหมาย</th></tr>
+        <tr><td>🟠 ส้ม</td><td>กำลังเริ่มระบบ</td></tr>
+        <tr><td>🔵 ฟ้ากะพริบ</td><td>กำลังต่อ WiFi</td></tr>
+        <tr><td>🟣 ม่วง</td><td>ต่อ MQTT ไม่ได้ (กำลังลองใหม่)</td></tr>
+        <tr><td>⚪ ขาวจาง</td><td>พร้อมทำงาน รอผลจาก AI</td></tr>
+        <tr><td>🟢 / 🔴 / 🔵 / 🟣</td><td>ผลของ AI: สบาย / ร้อนไป / เย็นไป / อบชื้น</td></tr>
+      </table></div>
+      <details><summary>กิจกรรม: ทดลองกับเซนเซอร์</summary>
+        <ol>
+          <li>เป่าลมหายใจใส่บอร์ด ค่าความชื้นเปลี่ยนอย่างไร? ใช้เวลานานแค่ไหนจึงกลับมาเท่าเดิม</li>
+          <li>เคาะโต๊ะเบา ๆ ค่า <code>ax ay az</code> เปลี่ยนอย่างไร? ทำไม <code>az</code> ถึงอยู่ประมาณ 9.8 ตอนวางนิ่ง</li>
+          <li>ถือบอร์ดขึ้นบันได 1 ชั้น ความกดอากาศลดลงกี่ hPa?</li>
+        </ol>
+      </details>
+    </section>
+
+    <!-- ===================== 3 ===================== -->
+    <section class="lesson" id="l3">
+      <h2>บทที่ 3 · ส่งข้อมูลขึ้นอินเทอร์เน็ตด้วย MQTT</h2>
+      <div class="meta"><span class="tag">1 คาบ</span><span class="tag">บอร์ด + มือถือ</span></div>
+      <h3>จุดประสงค์</h3>
+      <ul><li>อธิบายหลักการ Publish / Subscribe และ Topic ได้</li><li>เชื่อมบอร์ดกับ Dashboard บนมือถือได้</li></ul>
+      <h3>MQTT เหมือนกลุ่มแชท</h3>
+      <p><b>Broker</b> คือเซิร์ฟเวอร์กลาง (เหมือนแอปแชท) · <b>Topic</b> คือชื่อห้องแชท · <b>Publish</b> คือส่งข้อความเข้าห้อง · <b>Subscribe</b> คือเข้าร่วมห้องเพื่อรับข้อความ ผู้ส่งกับผู้รับไม่ต้องรู้จักกันโดยตรง</p>
+      <div class="table-scroll"><table>
+        <tr><th>Topic</th><th>ใครส่ง → ใครรับ</th><th>ตัวอย่างข้อความ</th></tr>
+        <tr><td><code>aiot-classroom/&lt;ID&gt;/sensors</code></td><td>บอร์ด → เว็บ</td><td><code>{"temp":29.4,"hum":63.1,...}</code></td></tr>
+        <tr><td><code>aiot-classroom/&lt;ID&gt;/led</code></td><td>เว็บ → บอร์ด</td><td><code>{"r":0,"g":255,"b":0,"label":"comfy"}</code></td></tr>
+        <tr><td><code>aiot-classroom/&lt;ID&gt;/status</code></td><td>บอร์ด → เว็บ</td><td><code>online</code> / <code>offline</code></td></tr>
+      </table></div>
+      <h3>ขั้นตอน</h3>
+      <ol>
+        <li>เปิด <a href="dashboard.html">Dashboard</a> บนมือถือ เลือก "บอร์ด Cucumber จริง"</li>
+        <li>พิมพ์ <code>DEVICE_ID</code> ให้ตรงกับในเฟิร์มแวร์ แล้วกด "เชื่อมต่อ"</li>
+        <li>เมื่อสถานะเป็น "รับข้อมูลจากบอร์ดอยู่" ค่าเซนเซอร์และกราฟจะอัปเดตทุก 2 วินาที</li>
+      </ol>
+      <p class="note">broker ที่ใช้เป็นแบบสาธารณะ ใครที่รู้ Topic ก็อ่านได้ ชวนนักเรียนคุยว่า <i>"ถ้าเป็นข้อมูลสุขภาพหรือกล้องในบ้าน ควรทำอย่างไร?"</i> (คำตอบ: ใช้ broker ส่วนตัว + รหัสผ่าน + เข้ารหัส TLS)</p>
+      <details><summary>กิจกรรม: แลกห้องกัน</summary>
+        <p>ให้กลุ่ม A พิมพ์ <code>DEVICE_ID</code> ของกลุ่ม B ใน Dashboard จะเห็นข้อมูลของอีกห้อง/อีกมุม และสามารถเปลี่ยนสีไฟบนบอร์ดของกลุ่ม B ได้ด้วย นี่คือเหตุผลที่ระบบจริงต้องมีการยืนยันตัวตน</p>
+      </details>
+    </section>
+
+    <!-- ===================== 4 ===================== -->
+    <section class="lesson" id="l4">
+      <h2>บทที่ 4 · เก็บข้อมูลและเทรน AI บน Google Colab</h2>
+      <div class="meta"><span class="tag">2 คาบ</span><span class="tag">บอร์ด + มือถือ + คอมพิวเตอร์</span></div>
+      <h3>จุดประสงค์</h3>
+      <ul>
+        <li>อธิบายคำว่า Feature, Label, Training set, Test set ได้</li>
+        <li>เก็บข้อมูลที่มีป้ายกำกับ เทรนโมเดล และอ่านผล confusion matrix ได้</li>
+      </ul>
+      <h3>Machine Learning ใน 1 นาที</h3>
+      <p>แทนที่เราจะเขียนกฎเอง เราให้ <b>ตัวอย่าง</b> กับคอมพิวเตอร์ เช่น "29 °C, ชื้น 80% → <span class="c-humid">อบชื้น</span>" หลาย ๆ ตัวอย่าง แล้วให้มันหารูปแบบเอง ค่าที่ป้อนเข้า (temp, hum) เรียกว่า <b>Feature</b> คำตอบที่ถูก (อบชื้น) เรียกว่า <b>Label</b></p>
+
+      <h3>คาบที่ 1: เก็บข้อมูล</h3>
+      <ol>
+        <li>ใน Dashboard ส่วน "③ เก็บข้อมูลสอน AI" เลือกป้ายตามความรู้สึกของคนส่วนใหญ่ในกลุ่ม แล้วกด "บันทึกต่อเนื่อง"</li>
+        <li>เปลี่ยนสภาพแวดล้อมเพื่อให้ได้ข้อมูลหลากหลาย: ปิด/เปิดพัดลม, ไปใกล้หน้าต่างที่มีแดด, ห้องแอร์, ใกล้กาต้มน้ำ (ระวังความร้อน)</li>
+        <li>พยายามให้มี <b>อย่างน้อย 30 แถวต่อป้าย</b> แล้วกด "ดาวน์โหลด CSV"</li>
+      </ol>
+      <h3>คาบที่ 2: เทรนบน Colab</h3>
+      <ol>
+        <li>เปิด <a data-link="colab" href="#" target="_blank" rel="noopener">notebook บน Google Colab</a></li>
+        <li>เซลล์แรก ตั้ง <code>UPLOAD_MY_CSV = True</code> แล้วอัปโหลดไฟล์ CSV ของกลุ่ม</li>
+        <li>รันทีละเซลล์ ดูกราฟการกระจายของข้อมูล → เทรน → ดู confusion matrix และแผนที่การตัดสินใจ</li>
+        <li>เซลล์สุดท้ายจะดาวน์โหลด <code>comfort_model.zip</code> (มี <code>model.json</code>, <code>weights.bin</code>, <code>meta.json</code>)</li>
+      </ol>
+      <details><summary>คำถามชวนคิด</summary>
+        <ol>
+          <li>ทำไมต้องแยกข้อมูล test ไว้ไม่ให้โมเดลเห็นตอนเทรน?</li>
+          <li>ถ้ากลุ่มหนึ่งขี้ร้อน อีกกลุ่มขี้หนาว โมเดลของสองกลุ่มจะต่างกันอย่างไร? AI แบบนี้ "ถูก" หรือ "ลำเอียง"?</li>
+          <li>ถ้าข้อมูล "อบชื้น" มีน้อยมาก โมเดลจะทายคลาสนี้ได้ดีไหม? ทดลองดูได้ใน notebook</li>
+        </ol>
+      </details>
+    </section>
+
+    <!-- ===================== 5 ===================== -->
+    <section class="lesson" id="l5">
+      <h2>บทที่ 5 · AI บนมือถือ และปิดวงจรด้วยไฟ LED</h2>
+      <div class="meta"><span class="tag">1 คาบ</span><span class="tag">บอร์ด + มือถือ</span></div>
+      <h3>จุดประสงค์</h3>
+      <ul><li>อธิบายข้อดีของการรัน AI บนอุปกรณ์ (Edge AI) ได้</li><li>นำโมเดลของกลุ่มไปใช้งานจริงและทำให้ระบบตอบสนองได้</li></ul>
+      <h3>สองทางในการนำโมเดลไปใช้</h3>
+      <div class="grid g2">
+        <div class="card"><h3>ทาง A: อัปโหลดขึ้น GitHub</h3><p class="small">แตกไฟล์ zip แล้วอัปโหลด 3 ไฟล์ทับของเดิมใน <code>docs/model/</code> ของ repo (Add file → Upload files → Commit) รอ 1–2 นาที ทุกคนที่เปิดเว็บจะได้โมเดลใหม่</p></div>
+        <div class="card"><h3>ทาง B: เทรนบนมือถือเลย</h3><p class="small">ใน Dashboard กด "④ เทรนบนมือถือ" ใช้ข้อมูลที่เก็บในเครื่องนั้น เทรนเสร็จในไม่กี่วินาที (โมเดลอยู่เฉพาะเครื่องนั้นจนกว่าจะรีเฟรชหน้า)</p></div>
+      </div>
+      <h3>ปิดวงจร: วัด → ส่ง → คิด → ตอบสนอง</h3>
+      <p>เมื่อ AI ทำนายผล หน้าเว็บจะ publish สีไปที่ <code>…/led</code> บอร์ดจะเปลี่ยนสีไฟทันที นี่คือส่วน <b>Act</b> ของระบบ ลองเป่าลมใส่บอร์ดหรือนำไปใกล้แหล่งความร้อน แล้วดูว่าไฟเปลี่ยนสีตามหรือไม่</p>
+      <h3>ทำไมต้องรัน AI บนมือถือ (Edge AI)?</h3>
+      <ul>
+        <li><b>ความเป็นส่วนตัว</b> ข้อมูลไม่ต้องส่งไปเซิร์ฟเวอร์ของใคร</li>
+        <li><b>ไม่ต้องมีเซิร์ฟเวอร์</b> เว็บเป็นไฟล์ static บน GitHub Pages ฟรี</li>
+        <li><b>เร็ว</b> ทำนายได้ในเสี้ยววินาที แม้เน็ตช้า</li>
+      </ul>
+      <details><summary>โปรเจกต์ต่อยอด (เลือก 1 อย่าง)</summary>
+        <ul>
+          <li><b>ตรวจจับการเปิดประตู:</b> ติดบอร์ดที่ประตู ใช้ค่า <code>ax ay az</code> จาก MPU-6050 สอน AI แยก "เปิด/ปิด/ไม่มีอะไร"</li>
+          <li><b>พัดลมอัตโนมัติ:</b> ต่อรีเลย์ที่ขา GPIO ของบอร์ด ให้เปิดพัดลมเมื่อ AI บอกว่า "ร้อนไป"</li>
+          <li><b>แจ้งเตือนผ่าน Telegram:</b> เพิ่ม bot ส่งข้อความเมื่อห้องร้อนติดต่อกันเกิน 10 นาที</li>
+        </ul>
+      </details>
+    </section>
+
+    <!-- ===================== teacher ===================== -->
+    <section class="lesson" id="teacher">
+      <h2>สำหรับครู: การประเมินผล และแก้ปัญหา</h2>
+      <h3>เกณฑ์การประเมิน (Rubric)</h3>
+      <div class="table-scroll"><table>
+        <tr><th>หัวข้อ</th><th>ดีมาก (3)</th><th>พอใช้ (2)</th><th>ปรับปรุง (1)</th></tr>
+        <tr><td>ระบบ IoT</td><td>บอร์ดส่งข้อมูลขึ้น Dashboard และรับสีไฟกลับได้</td><td>ส่งข้อมูลได้ แต่ยังไม่รับคำสั่งกลับ</td><td>อ่านค่าได้เฉพาะใน Serial Monitor</td></tr>
+        <tr><td>ข้อมูล</td><td>≥30 แถว/ป้าย หลายสภาพแวดล้อม</td><td>มีครบทุกป้ายแต่ไม่สมดุล</td><td>ขาดบางป้าย</td></tr>
+        <tr><td>โมเดล AI</td><td>อธิบาย confusion matrix และเหตุที่ทายผิดได้</td><td>เทรนสำเร็จ อ่านค่าความแม่นยำได้</td><td>เทรนไม่สำเร็จ</td></tr>
+        <tr><td>การนำเสนอ</td><td>อธิบายวงจร วัด/ส่ง/คิด/ตอบสนอง และข้อจำกัดได้</td><td>อธิบายได้บางส่วน</td><td>อธิบายไม่ได้</td></tr>
+      </table></div>
+      <h3>ปัญหาที่พบบ่อย</h3>
+      <details><summary>อัปโหลดไม่ได้ / หาพอร์ตไม่เจอ</summary><p>เข้าโหมดอัปโหลด: กด BOOT ค้าง → กด RESET → ปล่อย BOOT ใช้สาย USB ที่ส่งข้อมูลได้ (ไม่ใช่สายชาร์จอย่างเดียว)</p></details>
+      <details><summary>Serial Monitor ไม่ขึ้นอะไร</summary><p>ตั้ง USB CDC On Boot เป็น Enabled แล้วอัปโหลดใหม่ และตั้งความเร็วเป็น 115200</p></details>
+      <details><summary>ขึ้น HTS221:- (หาเซนเซอร์ไม่เจอ)</summary><p>เฟิร์มแวร์จะลองสลับขา SDA/SCL (GPIO41/40) ให้อัตโนมัติ ถ้ายังไม่เจอ ตรวจว่าบอร์ดเป็นรุ่น RIS (มีเซนเซอร์) ไม่ใช่รุ่น R</p></details>
+      <details><summary>ไฟบนบอร์ดเป็นสีฟ้ากะพริบไม่หยุด</summary><p>ต่อ WiFi ไม่ได้: ESP32-S2 รองรับเฉพาะ 2.4 GHz ตรวจชื่อ/รหัส WiFi และ WiFi ของโรงเรียนที่ต้องล็อกอินผ่านหน้าเว็บจะใช้ไม่ได้ ให้ใช้ hotspot จากมือถือแทน</p></details>
+      <details><summary>Dashboard เชื่อมต่อแล้วแต่ไม่มีข้อมูล</summary><p><code>DEVICE_ID</code> บนเว็บต้องตรงกับในเฟิร์มแวร์ทุกตัวอักษร (ตัวพิมพ์เล็ก/ใหญ่มีผล) และเครือข่ายบางแห่งบล็อกพอร์ต 8884 ลองใช้ 4G</p></details>
+    </section>
+
+    <!-- ===================== AI assistant ===================== -->
+    <section class="lesson" id="ai-assistant">
+      <h2>การใช้ AI เป็นผู้ช่วยพัฒนาโปรเจกต์นี้</h2>
+      <p>โปรเจกต์นี้สร้างร่วมกับผู้ช่วย AI (Claude) โดยผู้พัฒนาเป็นคนกำหนดเป้าหมายและตัดสินใจ ส่วน AI ช่วยค้นข้อมูล เขียนโค้ด และทดสอบ</p>
+      <div class="table-scroll"><table>
+        <tr><th>ขั้นตอน</th><th>สิ่งที่ขอให้ AI ทำ</th><th>สิ่งที่มนุษย์ต้องตรวจ</th></tr>
+        <tr><td>ออกแบบ</td><td>เสนอโจทย์ที่เหมาะกับนักเรียน ม.ปลาย และสถาปัตยกรรมระบบ</td><td>เลือกกลุ่มเป้าหมาย ที่รัน AI และรูปแบบ UI</td></tr>
+        <tr><td>ค้นสเปกบอร์ด</td><td>หาเซนเซอร์และขาของ Cucumber RIS</td><td>AI พบว่าแหล่งข้อมูลระบุขา I2C ขัดกันเอง จึงให้เฟิร์มแวร์ลองทั้งสองแบบ ต้องยืนยันกับบอร์ดจริง</td></tr>
+        <tr><td>เขียนโค้ด</td><td>เฟิร์มแวร์ Arduino, notebook Colab, หน้าเว็บ Dashboard</td><td>อ่านโค้ด ทดสอบบนบอร์ดจริง</td></tr>
+        <tr><td>ทดสอบ</td><td>ทดสอบวงจร MQTT → AI → LED ผ่าน broker จริงด้วยบอร์ดจำลอง</td><td>ทดสอบซ้ำกับบอร์ดจริงในห้องเรียน</td></tr>
+        <tr><td>เอกสาร</td><td>ร่างบทเรียน คำถาม และ rubric</td><td>ปรับภาษาและเวลาให้เหมาะกับห้องเรียนจริง</td></tr>
+      </table></div>
+      <h3>ข้อคิดสำหรับนักเรียน</h3>
+      <ul>
+        <li>AI เขียนโค้ดได้เร็ว แต่ <b>อาจผิดหรือมั่นใจเกินจริง</b> ต้องทดสอบเสมอ</li>
+        <li>ถาม AI ให้ <b>อธิบาย</b> โค้ดทีละส่วน จะเรียนรู้ได้มากกว่าการคัดลอก</li>
+        <li>บอกบริบทให้ชัด (บอร์ดรุ่นไหน ใช้ไลบรารีอะไร ใครเป็นผู้ใช้) คำตอบจะตรงขึ้นมาก</li>
+      </ul>
+    </section>
+  </main>
+
+  <footer><div class="wrap">AIoT Classroom · บอร์ด Cucumber RIS + MQTT + TensorFlow.js · <a data-link="repo" href="#">ซอร์สโค้ด</a></div></footer>
+  <script src="assets/common.js"></script>
+</body>
+</html>

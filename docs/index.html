@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AIoT Classroom</title>
+  <meta name="description" content="ชุดการเรียนรู้ AIoT สำหรับนักเรียนมัธยมปลาย: บอร์ด Cucumber + MQTT + AI บน Colab และมือถือ">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600;700&family=IBM+Plex+Mono&display=swap">
+  <link rel="stylesheet" href="assets/style.css">
+  <style>
+    .hero { padding: 28px 0 8px; }
+    .cta { margin-top: 18px; }
+    .arch text { font-family: var(--font); fill: var(--text); }
+    .arch .sub { fill: var(--muted); font-size: 12px; }
+    .arch .box { fill: var(--surface); stroke: var(--border); stroke-width: 1.5; }
+    .arch .boxa { fill: var(--accent-2); stroke: var(--accent); stroke-width: 1.5; }
+    .arch .ln { stroke: var(--muted); stroke-width: 1.6; fill: none; }
+    .arch .lnb { stroke: var(--accent); stroke-width: 1.6; fill: none; stroke-dasharray: 5 4; }
+    .arch .lbl { font-size: 11.5px; fill: var(--muted); }
+    .step-n { font-size: .8rem; font-weight: 700; color: var(--accent); }
+  </style>
+</head>
+<body>
+  <nav class="nav"><div class="nav-inner">
+    <a class="brand" href="index.html"><span class="dot"></span>AIoT Classroom</a>
+    <div class="nav-links">
+      <a href="index.html" aria-current="page">หน้าแรก</a>
+      <a href="lessons.html">บทเรียน</a>
+      <a href="dashboard.html">Dashboard</a>
+      <a data-link="repo" href="#">GitHub</a>
+    </div>
+  </div></nav>
+
+  <main class="wrap">
+    <section class="hero">
+      <span class="tag">ชุดการเรียนรู้ · ม.4–ม.6 · 5 บทเรียน</span>
+      <h1>ห้องเรียนนี้ร้อนไปไหม?<br>ให้ AI ช่วยตอบ</h1>
+      <p class="lead">เรียนรู้ <b>AIoT (AI + Internet of Things)</b> ผ่านโปรเจกต์จริง: บอร์ด Cucumber วัดอุณหภูมิและความชื้นของห้อง ส่งขึ้นอินเทอร์เน็ต แล้ว AI ที่นักเรียนเทรนเองบอกว่าห้องสบายหรือไม่ พร้อมเปลี่ยนสีไฟบนบอร์ดตามคำตอบ</p>
+      <div class="row cta">
+        <a class="btn primary" href="dashboard.html">เปิด Dashboard</a>
+        <a class="btn" href="lessons.html">เริ่มบทเรียน</a>
+        <a class="btn" data-link="colab" href="#" target="_blank" rel="noopener">เปิดใน Colab</a>
+      </div>
+    </section>
+
+    <h2>ระบบทำงานอย่างไร</h2>
+    <div class="card" style="overflow-x:auto">
+      <svg class="arch" viewBox="0 0 860 250" role="img" aria-label="แผนภาพ: บอร์ด Cucumber ส่งข้อมูลผ่าน MQTT ไปที่หน้าเว็บบนมือถือ ซึ่งรันโมเดล AI ที่เทรนบน Colab แล้วส่งสีกลับไปที่ไฟ LED" style="min-width:640px;width:100%">
+        <defs>
+          <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="currentColor" style="color:var(--muted)"/></marker>
+        </defs>
+        <rect class="boxa" x="10" y="60" width="180" height="96" rx="12"/>
+        <text x="100" y="92" text-anchor="middle" font-weight="700">บอร์ด Cucumber RIS</text>
+        <text class="sub" x="100" y="114" text-anchor="middle">ESP32-S2 · HTS221</text>
+        <text class="sub" x="100" y="132" text-anchor="middle">BMP280 · MPU-6050 · LED</text>
+
+        <rect class="box" x="300" y="60" width="200" height="96" rx="12"/>
+        <text x="400" y="92" text-anchor="middle" font-weight="700">MQTT Broker</text>
+        <text class="sub" x="400" y="114" text-anchor="middle">broker.hivemq.com</text>
+        <text class="sub" x="400" y="132" text-anchor="middle">ไปรษณีย์ส่งข้อความ</text>
+
+        <rect class="boxa" x="610" y="60" width="240" height="96" rx="12"/>
+        <text x="730" y="92" text-anchor="middle" font-weight="700">Dashboard บนมือถือ</text>
+        <text class="sub" x="730" y="114" text-anchor="middle">GitHub Pages · TensorFlow.js</text>
+        <text class="sub" x="730" y="132" text-anchor="middle">AI ทำนาย: เย็น/สบาย/ร้อน/อบชื้น</text>
+
+        <rect class="box" x="610" y="190" width="240" height="50" rx="12"/>
+        <text x="730" y="220" text-anchor="middle" font-weight="600">Google Colab · เทรนโมเดล</text>
+
+        <path class="ln" d="M190 92 H300" marker-end="url(#ar)"/>
+        <text class="lbl" x="245" y="84" text-anchor="middle">ค่าเซนเซอร์</text>
+        <path class="ln" d="M500 92 H610" marker-end="url(#ar)"/>
+        <text class="lbl" x="555" y="84" text-anchor="middle">WebSocket</text>
+
+        <path class="lnb" d="M610 130 H500" marker-end="url(#ar)"/>
+        <path class="lnb" d="M300 130 H190" marker-end="url(#ar)"/>
+        <text class="lbl" x="400" y="178" text-anchor="middle">สีไฟ LED ตามผลของ AI (ปิดวงจร)</text>
+
+        <path class="ln" d="M730 190 V156" marker-end="url(#ar)"/>
+        <text class="lbl" x="738" y="178">model.json</text>
+        <path class="ln" d="M670 156 C 620 175, 610 200, 610 214" marker-end="url(#ar)" style="opacity:.6"/>
+        <text class="lbl" x="560" y="214" text-anchor="end">ข้อมูลที่เก็บ (CSV)</text>
+      </svg>
+    </div>
+
+    <h2>ส่วนประกอบของโปรเจกต์</h2>
+    <div class="grid g2">
+      <div class="card">
+        <div class="step-n">IoT</div>
+        <h3>บอร์ด Cucumber RIS</h3>
+        <p>อ่านค่าอุณหภูมิ ความชื้น ความกดอากาศ และความเร่ง ส่งเป็น JSON ทุก 2 วินาที และรับคำสั่งสีไฟจาก AI</p>
+        <a data-link="firmware" href="#">ดูเฟิร์มแวร์ (Arduino) →</a>
+      </div>
+      <div class="card">
+        <div class="step-n">AI · เทรน</div>
+        <h3>Google Colab</h3>
+        <p>เทรนโครงข่ายประสาทเทียมจากข้อมูลที่นักเรียนเก็บเอง วัดผลด้วย confusion matrix แล้วส่งออกเป็น TensorFlow.js</p>
+        <a data-link="colab" href="#" target="_blank" rel="noopener">เปิด notebook →</a>
+      </div>
+      <div class="card">
+        <div class="step-n">AI · ใช้งาน</div>
+        <h3>รันบนมือถือ</h3>
+        <p>โมเดลทำงานในเบราว์เซอร์ของมือถือโดยตรง ไม่ต้องมีเซิร์ฟเวอร์ และเทรนใหม่บนมือถือได้ด้วย</p>
+        <a href="dashboard.html">เปิด Dashboard →</a>
+      </div>
+      <div class="card">
+        <div class="step-n">UI + เอกสาร</div>
+        <h3>GitHub Pages</h3>
+        <p>เว็บนี้ทั้งหมด (บทเรียน + Dashboard) โฮสต์ฟรีบน GitHub Pages ซอร์สโค้ดและเอกสารอยู่ใน repo เดียวกัน</p>
+        <a data-link="repo" href="#">ดู repo →</a>
+      </div>
+    </div>
+
+    <h2>สิ่งที่ต้องเตรียม</h2>
+    <div class="grid g3">
+      <div class="card"><h3>ฮาร์ดแวร์</h3><p class="small">บอร์ด Cucumber RIS 1 บอร์ด/กลุ่ม · สาย USB-C · WiFi 2.4 GHz</p></div>
+      <div class="card"><h3>ซอฟต์แวร์</h3><p class="small">Arduino IDE 2 + ESP32 core · บัญชี Google (Colab) · บัญชี GitHub</p></div>
+      <div class="card"><h3>ไม่มีบอร์ด?</h3><p class="small">Dashboard มี <b>โหมดจำลอง</b> ใช้สอนเรื่อง AI ได้ทันทีด้วยมือถืออย่างเดียว</p></div>
+    </div>
+
+    <h2>พัฒนาโดยมี AI เป็นผู้ช่วย</h2>
+    <p class="narrow">โปรเจกต์นี้พัฒนาร่วมกับผู้ช่วย AI (Claude) ตั้งแต่การค้นสเปกบอร์ด เขียนเฟิร์มแวร์ notebook หน้าเว็บ ไปจนถึงเอกสารบทเรียน บันทึกขั้นตอนและบทเรียนที่ได้อยู่ในหน้า <a href="lessons.html#ai-assistant">บทเรียน → การใช้ AI ช่วยพัฒนา</a></p>
+  </main>
+
+  <footer><div class="wrap">AIoT Classroom · บอร์ด Cucumber RIS + MQTT + TensorFlow.js · <a data-link="repo" href="#">ซอร์สโค้ด</a></div></footer>
+  <script src="assets/common.js"></script>
+</body>
+</html>
