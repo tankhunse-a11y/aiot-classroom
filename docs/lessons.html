@@ -85,10 +85,12 @@
         <li>ติดตั้ง <b>Arduino IDE 2</b> → File → Preferences → Additional boards manager URLs ใส่<br><code>https://espressif.github.io/arduino-esp32/package_esp32_index.json</code></li>
         <li>Tools → Board → Boards Manager → ติดตั้ง <b>esp32 by Espressif Systems</b></li>
         <li>Library Manager → ติดตั้ง <code>PubSubClient</code>, <code>ArduinoJson</code>, <code>Adafruit HTS221</code>, <code>Adafruit BMP280 Library</code>, <code>Adafruit MPU6050</code>, <code>Adafruit NeoPixel</code> (กด Install all เมื่อถามเรื่อง dependency)</li>
-        <li>เปิดไฟล์ <a data-link="firmware" href="#"><code>firmware/cucumber_aiot/cucumber_aiot.ino</code></a> แก้ 3 บรรทัด:
+        <li>ในโฟลเดอร์ <a data-link="firmware" href="#"><code>firmware/cucumber_aiot/</code></a> คัดลอกไฟล์ <code>secrets_example.h</code> แล้วตั้งชื่อใหม่เป็น <code>secrets.h</code> ใส่ชื่อและรหัส WiFi:
 <pre><code>const char* WIFI_SSID     = "ชื่อ WiFi";
-const char* WIFI_PASSWORD = "รหัส WiFi";
-const char* DEVICE_ID     = "school123-group01";  // ห้ามซ้ำกับกลุ่มอื่น</code></pre></li>
+const char* WIFI_PASSWORD = "รหัส WiFi";</code></pre>
+          <span class="small muted">ไฟล์ <code>secrets.h</code> ถูกตั้งไว้ไม่ให้ขึ้น GitHub รหัส WiFi จึงไม่หลุดไปใน repo สาธารณะ</span></li>
+        <li>เปิด <code>cucumber_aiot.ino</code> แก้ชื่ออุปกรณ์:
+<pre><code>const char* DEVICE_ID     = "school123-group01";  // ห้ามซ้ำกับกลุ่มอื่น</code></pre></li>
         <li>Tools → Board → <b>ESP32S2 Dev Module</b>, USB CDC On Boot: <b>Enabled</b>, PSRAM: <b>Enabled</b></li>
         <li>ครั้งแรก ให้บอร์ดเข้าโหมดอัปโหลด: <b>กดปุ่ม BOOT ค้าง → กด RESET → ปล่อย BOOT</b> แล้วเลือกพอร์ตและกด Upload (หลังอัปโหลดเสร็จกด RESET อีกครั้ง)</li>
         <li>เปิด Serial Monitor (115200) จะเห็นค่าที่ส่ง เช่น<br><code>-&gt; {"id":"school123-group01","temp":29.4,"hum":63.1,"pres":1008.6,"ax":0.12,...}</code></li>

@@ -30,8 +30,13 @@
 #include <Adafruit_NeoPixel.h>
 
 // ====== 1. แก้ค่าตรงนี้ให้ตรงกับห้องเรียนของคุณ ======
-const char* WIFI_SSID     = "YOUR_WIFI_NAME";
-const char* WIFI_PASSWORD = "YOUR_WIFI_PASSWORD";
+// ชื่อและรหัส WiFi อยู่ในไฟล์ secrets.h (ไฟล์นี้ไม่ถูกส่งขึ้น GitHub ตาม .gitignore)
+// ครั้งแรก: คัดลอก secrets_example.h เป็น secrets.h แล้วใส่ค่าจริงในไฟล์ใหม่
+#if __has_include("secrets.h")
+#include "secrets.h"
+#else
+#error "ไม่พบ secrets.h: คัดลอก secrets_example.h เป็น secrets.h แล้วใส่ชื่อ/รหัส WiFi"
+#endif
 
 // ชื่ออุปกรณ์ต้องไม่ซ้ำกับกลุ่มอื่น เช่น "school123-group01"
 // ต้องพิมพ์ชื่อเดียวกันนี้ในหน้า Dashboard

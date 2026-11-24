@@ -15,13 +15,24 @@
 
 ## ตั้งค่าและอัปโหลด
 
-แก้ใน `cucumber_aiot/cucumber_aiot.ino`:
+1. **WiFi:** คัดลอก `cucumber_aiot/secrets_example.h` เป็น `cucumber_aiot/secrets.h` แล้วใส่ค่าจริง
 
-```cpp
-const char* WIFI_SSID     = "YOUR_WIFI_NAME";
-const char* WIFI_PASSWORD = "YOUR_WIFI_PASSWORD";
-const char* DEVICE_ID     = "cucumber-group01";   // ห้ามซ้ำกับกลุ่มอื่น
-```
+   ```bash
+   cp firmware/cucumber_aiot/secrets_example.h firmware/cucumber_aiot/secrets.h
+   ```
+
+   ```cpp
+   const char* WIFI_SSID     = "ชื่อ WiFi";
+   const char* WIFI_PASSWORD = "รหัส WiFi";
+   ```
+
+   `secrets.h` อยู่ใน `.gitignore` จึงไม่ถูกส่งขึ้น GitHub ถ้าไม่มีไฟล์นี้ คอมไพล์จะหยุดพร้อมข้อความบอกวิธีแก้
+
+2. **ชื่ออุปกรณ์:** แก้ใน `cucumber_aiot/cucumber_aiot.ino`
+
+   ```cpp
+   const char* DEVICE_ID     = "cucumber-group01";   // ห้ามซ้ำกับกลุ่มอื่น
+   ```
 
 Tools:
 - Board: **ESP32S2 Dev Module**

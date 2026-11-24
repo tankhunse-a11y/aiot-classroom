@@ -2,3 +2,6 @@
 __pycache__/
 .ipynb_checkpoints/
 *.zip
+
+# ค่า WiFi จริงของบอร์ด (ดู firmware/cucumber_aiot/secrets_example.h)
+secrets.h

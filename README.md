@@ -38,7 +38,7 @@ docs/                                      เว็บไซต์ (GitHub Page
 
 1. **ขึ้น GitHub:** สร้าง repo ชื่อ `aiot-classroom` (Public) แล้ว push โค้ดนี้
 2. **เปิด Pages:** Settings → Pages → Source: **GitHub Actions** รอ workflow เสร็จ เว็บจะอยู่ที่ `https://<username>.github.io/aiot-classroom/`
-3. **บอร์ด:** เปิด `firmware/cucumber_aiot/cucumber_aiot.ino` แก้ WiFi และ `DEVICE_ID` แล้วอัปโหลด (รายละเอียดใน [firmware/README.md](firmware/README.md))
+3. **บอร์ด:** คัดลอก `firmware/cucumber_aiot/secrets_example.h` เป็น `secrets.h` แล้วใส่ WiFi (ไฟล์นี้ไม่ขึ้น GitHub) แก้ `DEVICE_ID` ใน `cucumber_aiot.ino` แล้วอัปโหลด (รายละเอียดใน [firmware/README.md](firmware/README.md))
 4. **Dashboard:** เปิดเว็บบนมือถือ → Dashboard → ใส่ `DEVICE_ID` → เชื่อมต่อ (ไม่มีบอร์ด ใช้ "โหมดจำลอง" ได้)
 5. **เทรน AI:** เก็บข้อมูลใน Dashboard → ดาวน์โหลด CSV → เปิด notebook ใน Colab → อัปโหลดโมเดลที่ได้ไปที่ `docs/model/`
 
